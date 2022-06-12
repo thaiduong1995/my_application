@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="edit_padding">5dp</dimen>
+    <dimen name="frames_padding">20dp</dimen>
+    <dimen name="input_distance">10dp</dimen>
+    <dimen name="txt_validate">15sp</dimen>
+    <dimen name="edit_padding_birthday">10dp</dimen>
+    <dimen name="txt_info">25sp</dimen>
+</resources>

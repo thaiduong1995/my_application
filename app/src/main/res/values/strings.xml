@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="action_login">Đăng nhập</string>
+    <string name="action_register">Đăng ký</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_account">Nhập email...</string>
+    <string name="edit_passwd">Nhập mật khẩu...</string>
+    <string name="btn_login">Đăng nhập</string>
+    <string name="edit_name">Nhập họ tên...</string>
+    <string name="edit_re_passwd">Nhập lại mật khẩu</string>
+    <string name="edit_birthday">Nhập ngày tháng năm sinh...</string>
+    <string name="rb_boy">Nam</string>
+    <string name="rb_girl">Nữ</string>
+    <string name="rb_diff">Khác</string>
+    <string name="txt_gender">Giới tính</string>
+    <string name="btn_register">Đăng ký</string>
+    <string name="register_title">Đăng ký thành công</string>
+    <string name="register_description">Chào mừng bạn</string>
+    <string name="select_date">Chọn ngày sinh</string>
+</resources>

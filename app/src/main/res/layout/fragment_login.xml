@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.LoginFragment"
+    android:padding="@dimen/frames_padding"
+    android:orientation="vertical"
+    android:background="@drawable/login_background">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_marginTop="@dimen/input_distance"
+        android:layout_marginBottom="@dimen/input_distance"
+        android:fontFamily="@font/dancing_script"
+        android:textSize="@dimen/txt_validate"
+        android:textColor="@color/red"
+        android:id="@+id/tv_validate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edit_account"
+        android:padding="@dimen/edit_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_account"
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:layout_marginTop="@dimen/input_distance"
+        android:layout_marginBottom="@dimen/input_distance"
+        android:id="@+id/edit_passwd"
+        android:padding="@dimen/edit_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_passwd"
+        android:inputType="textPassword"/>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_login"/>
+
+
+</LinearLayout>
