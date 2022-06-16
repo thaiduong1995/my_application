@@ -1,6 +1,13 @@
 package com.thaiduong.myapplication.login_register.model;
 
+import android.os.Build;
+import android.util.Patterns;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class AppAccount {
     private String name;
@@ -8,6 +15,7 @@ public class AppAccount {
     private String passwd;
     private String birthday;
     private String gender;
+    private final boolean[] validate;
 
     @NonNull
     @Override
@@ -19,12 +27,8 @@ public class AppAccount {
         return result;
     }
 
-    public AppAccount(String name, String account, String passwd, String birthday, String gender) {
-        this.name = name;
-        this.account = account;
-        this.passwd = passwd;
-        this.birthday = birthday;
-        this.gender = gender;
+    public AppAccount() {
+        validate = new boolean[4];
     }
 
     public String getName() {
@@ -32,7 +36,14 @@ public class AppAccount {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name.length() < 10) {
+            this.name = "Họ tên phải ít nhất có độ dài 10 ký tự";
+        } else if (!name.matches("^[\\p{L} .'-]+$")) {
+            this.name = "Họ tên chỉ được gồm các chữ cái";
+        } else {
+            this.name = name;
+            validate[0] = true;
+        }
     }
 
     public String getAccount() {
@@ -40,7 +51,12 @@ public class AppAccount {
     }
 
     public void setAccount(String account) {
-        this.account = account;
+        if (!Patterns.EMAIL_ADDRESS.matcher(account).matches()) {
+            this.account = "Địa chỉ email không hợp lệ";
+        } else {
+            this.account = account;
+            validate[1] = true;
+        }
     }
 
     public String getPasswd() {
@@ -48,22 +64,44 @@ public class AppAccount {
     }
 
     public void setPasswd(String passwd) {
-        this.passwd = passwd;
+        if (passwd.length() < 8) {
+            this.passwd = "Mật khẩu phải có ít nhất 8 ký tự";
+        } else if (passwd.matches("[^A-Z]+$")) {
+            this.passwd = "Mật khẩu phải có ít nhất một chữ in hoa";
+        } else if (passwd.matches("[^\\d]+$")) {
+            this.passwd = "Mật khẩu phải có ít nhất một chữ số";
+        } else {
+            this.passwd = passwd;
+            validate[2] = true;
+        }
     }
 
     public String getBirthday() {
         return birthday;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getGender() {
-        return gender;
+        if (birthday.equals("Chọn ngày sinh")) {
+            this.birthday = "Ngày sinh không được để trống";
+        } else {
+            String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            int birthdayYear = Integer.parseInt(birthday.split("/")[2]);
+            int nowYear = Integer.parseInt(localDate.split("/")[2]);
+            if (birthdayYear > nowYear - 10) {
+                this.birthday = "Ngày sinh không hợp lệ";
+            } else {
+                this.birthday = birthday;
+                validate[3] = true;
+            }
+        }
     }
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public boolean[] getValidate() {
+        return validate;
     }
 }

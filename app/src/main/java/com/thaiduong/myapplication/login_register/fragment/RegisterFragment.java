@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +24,17 @@ import android.widget.TextView;
 import com.thaiduong.myapplication.R;
 import com.thaiduong.myapplication.data_local.DataLocalManager;
 import com.thaiduong.myapplication.login_register.model.AppAccount;
+import com.thaiduong.myapplication.login_register.presenter.IRegisterPresenter;
+import com.thaiduong.myapplication.login_register.presenter.RegisterPresenter;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener, IRegisterPresenter {
 
     private EditText editName, editAccount, editPasswd, editRePasswd;
     private TextView tvBirthday, tvValidateName, tvValidateAccount, tvValidatePasswd
@@ -42,6 +42,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private RadioGroup rgGender;
     Button btnRegister;
 
+    RegisterPresenter registerPresenter;
+    AppAccount account;
     String gender;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -125,9 +127,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         rgGender = (RadioGroup) view.findViewById(R.id.rgGender);
         btnRegister = (Button) view.findViewById(R.id.btn_register);
         gender = "Nam";
+        account = new AppAccount();
+        registerPresenter = new RegisterPresenter(this);
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
@@ -138,21 +142,32 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_register:
                 InputMethodManager methodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 methodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                if (validate(editName, editAccount, editPasswd, editRePasswd, tvBirthday)) {
-                    AppAccount account = new AppAccount(editName.getText().toString().trim()
-                            , editAccount.getText().toString().trim(), editPasswd.getText().toString()
-                            , tvBirthday.getText().toString(), gender);
-                    notifySuccess("Đăng ký", "Chúc mừng bạn đã đăng ký thành công");
-                    DataLocalManager.setAccount(account);
+                clearValidate();
+                if (editPasswd.getText().toString().equals(editRePasswd.getText().toString())) {
+                    account.setName(editName.getText().toString().trim());
+                    account.setAccount(editAccount.getText().toString().trim());
+                    account.setPasswd(editPasswd.getText().toString().trim());
+                    account.setBirthday(tvBirthday.getText().toString().trim());
+                    account.setGender(gender);
+                    registerPresenter.registerCheck(account);
+                } else {
+                    tvValidateRePasswd.setText("Mật khẩu không trùng khớp");
                 }
-                break;
         }
     }
 
-    private void notifySuccess(String title, String content) {
+    private void clearValidate() {
+        tvValidateName.setText("");
+        tvValidateAccount.setText("");
+        tvValidatePasswd.setText("");
+        tvValidateRePasswd.setText("");
+        tvValidateBirthday.setText("");
+    }
+
+    private void notifySuccess() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(title);
-        builder.setMessage(content);
+        builder.setTitle("Đăng ký");
+        builder.setMessage("Chúc mừng bạn đã đăng ký thành công");
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -176,76 +191,25 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         pickerDialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private boolean validate(EditText editName, EditText editAccount, EditText editPasswd, EditText editRePasswd, TextView editBirthday) {
-        //Name
-        String name = editName.getText().toString().trim();
-        if (name.length() < 10) {
-            tvValidateName.setText("Họ tên phải ít nhất có độ dài 10 ký tự");
-            return false;
-        } else {
-            tvValidateName.setText("");
-        }
-        if (!name.matches("^[\\p{L} .'-]+$")) {
-            tvValidateName.setText("Họ tên chỉ được gồm các chữ cái");
-            return false;
-        } else {
-            tvValidateName.setText("");
-        }
-        //Account
-        String account = editAccount.getText().toString().trim();
-        if (!Patterns.EMAIL_ADDRESS.matcher(account).matches()) {
-            tvValidateAccount.setText("Địa chỉ email không hợp lệ");
-            return false;
-        } else {
-            tvValidateAccount.setText("");
-        }
-        //Password
-        String passwd = editRePasswd.getText().toString();
-        if (passwd.length() < 8) {
-            tvValidatePasswd.setText("Mật khẩu phải có ít nhất 8 ký tự");
-            return false;
-        } else {
-            tvValidatePasswd.setText("");
-        }
-        if (passwd.matches("[^A-Z]+$")) {
-            tvValidatePasswd.setText("Mật khẩu phải có ít nhất một chữ in hoa");
-            return false;
-        } else {
-            tvValidatePasswd.setText("");
-        }
-        if (passwd.matches("[^\\d]+$")) {
-            tvValidatePasswd.setText("Mật khẩu phải có ít nhất một chữ số");
-            return false;
-        } else {
-            tvValidatePasswd.setText("");
-        }
-        //Re-Password
-        String rePasswd = editRePasswd.getText().toString();
-        if (!rePasswd.equals(passwd)) {
-            tvValidateRePasswd.setText("Mật khẩu không trùng khớp");
-            return false;
-        } else {
-            tvValidateRePasswd.setText("");
-        }
-        //Birthday
-        String birthday = tvBirthday.getText().toString();
-        if (birthday.length() == 0) {
-            tvValidateBirthday.setText("Ngày sinh không được để trống");
-            return false;
-        } else {
-            tvValidateBirthday.setText("");
-        }
-        String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        int birthdayYear = Integer.parseInt(birthday.split("/")[2]);
-        int nowYear = Integer.parseInt(localDate.split("/")[2]);
-        if (birthdayYear > nowYear - 10) {
-            tvValidateBirthday.setText("Ngày sinh không hợp lệ");
-            return false;
-        } else {
-            tvValidateBirthday.setText("");
-        }
-        return true;
+    @Override
+    public void successRegister() {
+        notifySuccess();
+        DataLocalManager.setAccount(account);
     }
 
+    @Override
+    public void failedRegister() {
+        if (!account.getValidate()[0]) {
+            tvValidateName.setText(account.getName());
+        }
+        if (!account.getValidate()[1]) {
+            tvValidateAccount.setText(account.getAccount());
+        }
+        if (!account.getValidate()[2]) {
+            tvValidatePasswd.setText(account.getPasswd());
+        }
+        if (!account.getValidate()[3]) {
+            tvValidateBirthday.setText(account.getBirthday());
+        }
+    }
 }
