@@ -3,8 +3,6 @@ package com.thaiduong.myapplication.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
@@ -16,12 +14,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.thaiduong.myapplication.R;
 import com.thaiduong.myapplication.data_local.DataLocalManager;
-import com.thaiduong.myapplication.fragment.LoginFragment;
-import com.thaiduong.myapplication.fragment.RegisterFragment;
-import com.thaiduong.myapplication.view_pager.DepthPageTransformer;
-import com.thaiduong.myapplication.view_pager.ViewPagerAdapter;
+import com.thaiduong.myapplication.login_register.view_pager.DepthPageTransformer;
+import com.thaiduong.myapplication.login_register.view_pager.ViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class LoginRegisterActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     BottomNavigationView mNavigationView;
     ViewPager2 mViewPager;
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         setContentView(R.layout.activity_main);
 
         if (DataLocalManager.getLoginStatus()) {
-            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            Intent intent = new Intent(LoginRegisterActivity.this, AccountActivity.class);
             startActivity(intent);
         } else {
             addViews();
@@ -46,9 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     }
 
     private void setUpViewPager() {
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(MainActivity.this);
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(LoginRegisterActivity.this);
         mViewPager.setAdapter(pagerAdapter);
-
         mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {

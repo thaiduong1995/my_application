@@ -1,4 +1,4 @@
-package com.thaiduong.myapplication.fragment;
+package com.thaiduong.myapplication.login_register.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.thaiduong.myapplication.R;
 import com.thaiduong.myapplication.data_local.DataLocalManager;
-import com.thaiduong.myapplication.model.AppAccount;
+import com.thaiduong.myapplication.login_register.model.AppAccount;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

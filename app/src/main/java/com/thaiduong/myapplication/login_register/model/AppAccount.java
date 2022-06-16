@@ -1,4 +1,4 @@
-package com.thaiduong.myapplication.model;
+package com.thaiduong.myapplication.login_register.model;
 
 import androidx.annotation.NonNull;
 

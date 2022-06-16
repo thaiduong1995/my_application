@@ -1,18 +1,12 @@
-package com.thaiduong.myapplication.view_pager;
-
-import android.app.Activity;
+package com.thaiduong.myapplication.login_register.view_pager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.thaiduong.myapplication.activities.MainActivity;
-import com.thaiduong.myapplication.fragment.LoginFragment;
-import com.thaiduong.myapplication.fragment.RegisterFragment;
+import com.thaiduong.myapplication.login_register.fragment.LoginFragment;
+import com.thaiduong.myapplication.login_register.fragment.RegisterFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 

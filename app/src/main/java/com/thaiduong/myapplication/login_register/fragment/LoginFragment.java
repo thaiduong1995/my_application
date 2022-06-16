@@ -1,4 +1,4 @@
-package com.thaiduong.myapplication.fragment;
+package com.thaiduong.myapplication.login_register.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.thaiduong.myapplication.R;
 import com.thaiduong.myapplication.activities.AccountActivity;
 import com.thaiduong.myapplication.data_local.DataLocalManager;
-import com.thaiduong.myapplication.model.AppAccount;
+import com.thaiduong.myapplication.login_register.model.AppAccount;
 
 /**
  * A simple {@link Fragment} subclass.

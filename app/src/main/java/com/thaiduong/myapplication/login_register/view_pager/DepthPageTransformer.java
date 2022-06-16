@@ -1,4 +1,4 @@
-package com.thaiduong.myapplication.view_pager;
+package com.thaiduong.myapplication.login_register.view_pager;
 
 import android.view.View;
 

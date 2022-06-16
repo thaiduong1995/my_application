@@ -3,7 +3,7 @@ package com.thaiduong.myapplication.data_local;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.thaiduong.myapplication.model.AppAccount;
+import com.thaiduong.myapplication.login_register.model.AppAccount;
 
 public class DataLocalManager {
     private static final String PREF_LOGIN_STATUS = "PREF_LOGIN_STATUS";
